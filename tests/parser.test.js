@@ -58,6 +58,8 @@ check('need a new calculator', { type: 'list', list: 'shopping', title: 'New cal
 check('get my haircut friday', { type: 'task' });
 check('workout: bench 3x5 185', { type: 'note', category: 'workouts' });
 check('5 year plan: graduate, start fab shop, buy land', { type: 'note' });
+check('thermo homework due every friday', { type: 'task', freq: 'weekly' });
+check('pay rent on the 1st every month', { type: 'task', freq: 'monthly' });
 // recurrence
 const ev = { start: D(2026, 11, 20, 6), end: D(2026, 11, 20, 7), recur: { freq: 'weekly', interval: 1, byday: [1, 3, 5] }, exdates: ['2026-11-25'] };
 const occ = occurrences(ev, D(2026, 11, 16), D(2026, 11, 30)).map(o => dayKey(o.start));

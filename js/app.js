@@ -5,7 +5,7 @@ import { occurrences, startOfDay, addDays, dayKey, fromDayKey, fmtDate, fmtTime,
 import { parseICS, toICS } from './ics.js';
 import { makeBackup, readBackup, isEncrypted } from './backup.js';
 
-export const APP_VERSION = '1.0.0';
+export const APP_VERSION = '1.0.1';
 
 // ---------------- state ----------------
 const S = {
@@ -129,8 +129,16 @@ function renderChat() {
 }
 function botSay(o) { const m = { id: uid(), who: 'bot', t: Date.now(), ...o }; S.chat.push(m); saveChat(); return m; }
 
+const LINE_SPLIT = /\r\n|\r|\n|\u2028|\u2029/;
 async function handleInput(text) {
   text = text.trim(); if (!text) return;
+  // A pasted list (several lines) goes to the brain-dump review instead of becoming one item.
+  const lines = text.split(LINE_SPLIT).map(l => l.trim()).filter(Boolean);
+  if (lines.length > 1) {
+    S.chat.push({ id: uid(), who: 'me', text: lines.length + ' lines pasted', t: Date.now() });
+    botSay({ html: `📋 Got <b>${lines.length}</b> lines — review them below, uncheck anything wrong, then tap <b>Add checked items</b>.` });
+    refresh(); previewDump(lines.join('\n')); return;
+  }
   S.chat.push({ id: uid(), who: 'me', text, t: Date.now() });
   let r;
   try { r = parse(text); } catch (e) { console.error(e); r = null; }
@@ -598,7 +606,7 @@ want to read Atomic Habits
   <div class="sheet-actions"><button class="btn" type="submit">Preview</button></div></form>`);
 }
 function previewDump(text) {
-  const lines = text.split(/\n+/).map(l => l.replace(/^[-•*\d.)\s]+(?=\D)/, '').trim()).filter(Boolean);
+  const lines = text.split(LINE_SPLIT).map(l => l.replace(/^\s*(?:[-•*▪◦]|\d+[.)])\s+/, '').trim()).filter(Boolean);
   const specs = [];
   for (const l of lines) {
     const r = parse(l);

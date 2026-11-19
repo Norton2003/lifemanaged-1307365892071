@@ -1,6 +1,6 @@
 // Service worker: caches the app's own files so it works fully offline.
 // It never sees or stores your data (that lives in IndexedDB). Bump VERSION on every release.
-const VERSION = 'lifemanaged-v1.0.0';
+const VERSION = 'lifemanaged-v1.0.1';
 const FILES = [
   './', './index.html', './manifest.webmanifest', './css/app.css',
   './js/app.js', './js/parser.js', './js/dates.js', './js/db.js', './js/ics.js', './js/backup.js',
