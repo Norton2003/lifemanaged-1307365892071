@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Privacy lock: the page may load only its own files and may not send data anywhere (connect-src 'none'). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'self'; manifest-src 'self'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#111317">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LifeManaged">
+  <meta name="format-detection" content="telephone=no">
+  <title>LifeManaged</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <h1 id="viewTitle">LifeManaged</h1>
+      <span class="lock" title="Stored only on this device">🔒 on-device</span>
+      <button id="settingsBtn" class="icon-btn" aria-label="Settings">⚙️</button>
+    </header>
+    <div id="banner" class="banner hidden"></div>
+
+    <main id="views">
+      <section id="view-chat" class="view active">
+        <div id="chatLog" class="chat-log" aria-live="polite"></div>
+        <div class="composer">
+          <div class="chips scroll">
+            <button class="chip" data-say="today">Today</button>
+            <button class="chip" data-say="this week">This week</button>
+            <button class="chip" data-say="__dump">🧠 Brain dump</button>
+            <button class="chip" data-say="groceries">Groceries</button>
+            <button class="chip" data-say="tasks">Tasks</button>
+            <button class="chip" data-say="overdue">Overdue</button>
+            <button class="chip" data-say="help">Help</button>
+          </div>
+          <form id="chatForm" autocomplete="off">
+            <textarea id="chatInput" rows="1" enterkeyhint="send" placeholder="Tell me anything…" aria-label="Message"></textarea>
+            <button class="send" aria-label="Send">↑</button>
+          </form>
+        </div>
+      </section>
+      <section id="view-today" class="view pad"></section>
+      <section id="view-calendar" class="view pad"></section>
+      <section id="view-lists" class="view pad"></section>
+      <section id="view-notes" class="view pad"></section>
+      <section id="view-settings" class="view pad"></section>
+    </main>
+
+    <nav class="tabbar">
+      <button data-view="chat" class="on"><span>💬</span>Chat</button>
+      <button data-view="today"><span>☀️</span>Today</button>
+      <button data-view="calendar"><span>📅</span>Calendar</button>
+      <button data-view="lists"><span>✅</span>Lists</button>
+      <button data-view="notes"><span>📝</span>Notes</button>
+    </nav>
+  </div>
+
+  <div id="sheet" class="sheet-wrap hidden"><div class="sheet" id="sheetBody" role="dialog" aria-modal="true"></div></div>
+  <div id="toast" class="toast" role="status"></div>
+  <input type="file" id="fileIcs" accept=".ics,text/calendar" multiple hidden>
+  <input type="file" id="fileBackup" accept=".json,application/json" hidden>
+  <noscript>LifeManaged needs JavaScript turned on.</noscript>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
